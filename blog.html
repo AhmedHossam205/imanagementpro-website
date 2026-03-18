@@ -1,0 +1,95 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Sticky nav
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+
+  // Hamburger
+  const ham = document.querySelector('.hamburger');
+  const links = document.querySelector('.nav-links');
+  if (ham) {
+    ham.addEventListener('click', () => {
+      links.classList.toggle('open');
+      const [a, b, c] = ham.querySelectorAll('span');
+      const open = links.classList.contains('open');
+      a.style.transform = open ? 'rotate(45deg) translate(5px,5px)' : '';
+      b.style.opacity   = open ? '0' : '1';
+      c.style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
+    });
+    document.addEventListener('click', e => { if (!nav.contains(e.target)) links.classList.remove('open'); });
+  }
+
+  // Active link
+  const page = location.pathname.split('/').pop() || 'index.html';
+  links?.querySelectorAll('a').forEach(a => {
+    if (a.getAttribute('href') === page) a.classList.add('active');
+  });
+
+  // Fade-in on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fi').forEach(el => io.observe(el));
+
+  // Counter
+  const counterIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, target = +el.dataset.n, suf = el.dataset.s || '', dur = 1600;
+      let cur = 0, step = target / (dur / 16);
+      const t = setInterval(() => { cur = Math.min(cur + step, target); el.textContent = Math.floor(cur) + suf; if (cur >= target) clearInterval(t); }, 16);
+      counterIO.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-n]').forEach(el => counterIO.observe(el));
+
+  // Tabs
+  document.querySelectorAll('[data-tab-btn]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const wrap = btn.closest('[data-tabs]');
+      wrap.querySelectorAll('[data-tab-btn]').forEach(b => b.classList.remove('active'));
+      wrap.querySelectorAll('[data-tab-panel]').forEach(p => p.hidden = true);
+      btn.classList.add('active');
+      const panel = wrap.querySelector(`[data-tab-panel="${btn.dataset.tabBtn}"]`);
+      if (panel) panel.hidden = false;
+    });
+  });
+
+  // Testimonial slider
+  const track = document.querySelector('[data-track]');
+  if (track) {
+    let idx = 0;
+    const cards = track.querySelectorAll('[data-slide]');
+    const dots  = document.querySelectorAll('[data-dot]');
+    const go = i => {
+      idx = (i + cards.length) % cards.length;
+      track.style.transform = `translateX(-${idx * 100}%)`;
+      dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+    };
+    document.querySelector('[data-prev]')?.addEventListener('click', () => go(idx - 1));
+    document.querySelector('[data-next]')?.addEventListener('click', () => go(idx + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+    setInterval(() => go(idx + 1), 5000);
+  }
+
+  // Contact form
+  const form = document.querySelector('.c-form');
+  if (form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const btn = form.querySelector('[type=submit]');
+      const orig = btn.textContent;
+      btn.textContent = '✓ Message Sent'; btn.style.background = '#22c55e'; btn.style.color = '#fff'; btn.disabled = true;
+      setTimeout(() => { btn.textContent = orig; btn.style = ''; btn.disabled = false; form.reset(); }, 3500);
+    });
+  }
+
+  // Filter buttons (courses)
+  document.querySelectorAll('[data-filter-btn]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('[data-filters]').querySelectorAll('[data-filter-btn]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+});

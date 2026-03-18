@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Courses – IMP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+  .featured-course {
+    background: var(--gold);
+    border-radius: var(--r-lg);
+    padding: 3rem;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 2rem; align-items: center;
+    margin-bottom: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .featured-course::before {
+    content: '📊';
+    position: absolute; right: 2.5rem; top: 50%; transform: translateY(-50%);
+    font-size: 8rem; opacity: .12; pointer-events: none;
+  }
+  .featured-course h2 { font-family: 'Bebas Neue', cursive; font-size: clamp(2rem,4vw,3rem); letter-spacing: .03em; color: var(--ink); margin-bottom: .6rem; line-height: .95; }
+  .featured-course p { font-size: .9rem; color: rgba(0,0,0,.6); margin-bottom: 1.2rem; max-width: 520px; }
+  .f-stats { display: flex; gap: 2rem; margin-bottom: 1.5rem; }
+  .f-stat .v { font-family: 'Bebas Neue', cursive; font-size: 1.5rem; letter-spacing: .03em; color: var(--ink); }
+  .f-stat .l { font-size: .75rem; color: rgba(0,0,0,.5); }
+  .featured-label { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: rgba(0,0,0,.12); color: var(--ink); padding: .2rem .65rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; }
+
+  /* Filter bar */
+  [data-filters] { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  [data-filter-btn] {
+    font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .82rem;
+    padding: .5rem 1.1rem; border-radius: 7px; cursor: pointer;
+    background: var(--surface); color: var(--muted);
+    border: 1px solid var(--border); letter-spacing: .03em;
+    transition: all .18s;
+  }
+  [data-filter-btn]:hover { color: var(--white); border-color: var(--border-h); }
+  [data-filter-btn].active { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+  .course-card { display: flex; flex-direction: column; }
+  .c-thumb { height: 150px; margin: -2rem -2rem 1.5rem; border-radius: var(--r-lg) var(--r-lg) 0 0; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+  .c-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+  .c-rating { font-size: .8rem; font-weight: 700; color: var(--gold); }
+  .course-card h3 { font-weight: 700; font-size: .97rem; color: var(--white); line-height: 1.35; margin-bottom: .5rem; }
+  .course-card p { font-size: .84rem; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1.1rem; }
+  .c-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+  .c-tag { font-size: .68rem; font-weight: 600; padding: .18rem .55rem; border-radius: 20px; background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+  .c-foot { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+  .c-enrolcnt { font-size: .76rem; color: var(--muted-2); }
+
+  /* Why enroll */
+  .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+  .why { background: var(--ink-2); padding: 2rem 1.8rem; transition: background .2s; }
+  .why:hover { background: var(--ink-3); }
+  .why .ico { font-size: 1.5rem; margin-bottom: .8rem; }
+  .why h3 { font-weight: 700; font-size: .95rem; color: var(--white); margin-bottom: .4rem; }
+  .why p { font-size: .84rem; color: var(--muted); line-height: 1.65; }
+
+  @media(max-width:640px) { .featured-course { grid-template-columns: 1fr; } .why-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">IMP<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="courses.html" class="active">Courses</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="contact.html" class="nav-cta">Enroll Now</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a> / Courses</div>
+    <h1>Training<br/>Courses</h1>
+    <p>Specialized programs tailored to the latest advancements in the job market — online and offline options available across the MENA region.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+
+    <!-- Featured -->
+    <div class="featured-course fi">
+      <div>
+        <div class="featured-label">⭐ Most Popular Course</div>
+        <h2>Data Analysis &amp;<br/>Business Intelligence<br/>Diploma</h2>
+        <div class="f-stats">
+          <div class="f-stat"><div class="v">11,520+</div><div class="l">Enrolled Trainees</div></div>
+          <div class="f-stat"><div class="v">4.9 ★</div><div class="l">Average Rating</div></div>
+          <div class="f-stat"><div class="v">6 Mo.</div><div class="l">Duration</div></div>
+        </div>
+        <p>Comprehensive diploma from beginner to professional. Master Excel, Power BI, SQL, Python, and business reporting in one complete program.</p>
+        <a href="contact.html" class="btn" style="background:var(--ink);color:var(--white);">Enroll Now →</a>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div data-filters class="fi">
+      <button data-filter-btn class="active">All Courses</button>
+      <button data-filter-btn>Data &amp; AI</button>
+      <button data-filter-btn>Management</button>
+      <button data-filter-btn>Human Resources</button>
+      <button data-filter-btn>Finance</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="g3">
+
+      <div class="card course-card fi">
+        <div class="c-thumb" style="background:linear-gradient(135deg,#0d1f35,#0f3855);">🤖</div>
+        <div class="c-top"><span class="badge">New</span><span class="c-rating">⭐ 4.8</span></div>
+        <h3>Foundation of AI Diploma</h3>
+        <p>AI fundamentals and practical implementation — machine learning, generative AI, and real business applications to stay competitive.</p>
+        <div class="c-tags"><span class="c-tag">AI</span><span class="c-tag">Machine Learning</span><span class="c-tag">ChatGPT</span></div>
+        <div class="c-foot"><span class="c-enrolcnt">3,200 enrolled</span><a href="contact.html" class="btn btn-gold" style="padding:.5rem 1rem; font-size:.8rem;">Enroll →</a></div>
+      </div>
+
+      <div class="card course-card fi">
+        <div class="c-thumb" style="background:linear-gradient(135deg,#1f1a0a,#3d3010);">📈</div>
+        <div class="c-top"><span class="badge">Trending</span><span class="c-rating">⭐ 4.9</span></div>
+        <h3>Project Management Professional (PMP)</h3>
+        <p>Internationally recognized PMP prep. Master project planning, execution, risk management, and stakeholder communication.</p>
+        <div class="c-tags"><span class="c-tag">PMP</span><span class="c-tag">Agile</span><span class="c-tag">Leadership</span></div>
+        <div class="c-foot"><span class="c-enrolcnt">5,800 enrolled</span><a href="contact.html" class="btn btn-gold" style="padding:.5rem 1rem; font-size:.8rem;">Enroll →</a></div>
+      </div>
+
+      <div class="card course-card fi">
+        <div class="c-thumb" style="background:linear-gradient(135deg,#0d2520,#0f4535);">👥</div>
+        <div class="c-top"><span class="badge">SHRM</span><span class="c-rating">⭐ 4.7</span></div>
+        <h3>Human Resources Management</h3>
+        <p>A comprehensive HR program covering talent acquisition, performance management, compensation, and strategic HR planning.</p>
+        <div class="c-tags"><span class="c-tag">HR</span><span class="c-tag">SHRM</span><span class="c-tag">People Ops</span></div>
+        <div class="c-foot"><span class="c-enrolcnt">4,100 enrolled</span><a href="contact.html" class="btn btn-gold" style="padding:.5rem 1rem; font-size:.8rem;">Enroll →</a></div>
+      </div>
+
+      <div class="card course-card fi">
+        <div class="c-thumb" style="background:linear-gradient(135deg,#1a0d30,#350f55);">💰</div>
+        <div class="c-top"><span class="c-rating">⭐ 4.8</span></div>
+        <h3>Financial Analysis &amp; Modeling</h3>
+        <p>Build advanced financial models, conduct valuation analysis, and master Excel-based financial reporting for corporate finance decisions.</p>
+        <div class="c-tags"><span class="c-tag">Finance</span><span class="c-tag">Excel</span><span class="c-tag">Modeling</span></div>
+        <div class="c-foot"><span class="c-enrolcnt">2,600 enrolled</span><a href="contact.html" class="btn btn-gold" style="padding:.5rem 1rem; font-size:.8rem;">Enroll →</a></div>
+      </div>
+
+      <div class="card course-card fi">
+        <div class="c-thumb" style="background:linear-gradient(135deg,#0f2744,#1a3c5e);">⚡</div>
+        <div class="c-top"><span class="badge">Top Rated</span><span class="c-rating">⭐ 4.9</span></div>
+        <h3>Excel &amp; Power BI Masterclass</h3>
+        <p>From Excel basics to advanced Power BI dashboards. Create stunning interactive reports and automate data workflows.</p>
+        <div class="c-tags"><span class="c-tag">Excel</span><span class="c-tag">Power BI</span><span class="c-tag">Dashboards</span></div>
+        <div class="c-foot"><span class="c-enrolcnt">7,200 enrolled</span><a href="contact.html" class="btn btn-gold" style="padding:.5rem 1rem; font-size:.8rem;">Enroll →</a></div>
+      </div>
+
+      <div class="card course-card fi">
+        <div class="c-thumb" style="background:linear-gradient(135deg,#1a1507,#332b0f);">🗂</div>
+        <div class="c-top"><span class="c-rating">⭐ 4.7</span></div>
+        <h3>Strategic Management &amp; Leadership</h3>
+        <p>Develop strategic thinking, leadership capabilities, and decision-making frameworks to lead organizations in complex environments.</p>
+        <div class="c-tags"><span class="c-tag">Strategy</span><span class="c-tag">Leadership</span><span class="c-tag">Executive</span></div>
+        <div class="c-foot"><span class="c-enrolcnt">1,900 enrolled</span><a href="contact.html" class="btn btn-gold" style="padding:.5rem 1rem; font-size:.8rem;">Enroll →</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY ENROLL -->
+<section class="section-alt">
+  <div class="container">
+    <div class="sh centered fi">
+      <div class="eyebrow center">Learning Options</div>
+      <h2 class="h-title">Flexible Training<br/>for Every Schedule</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why fi"><div class="ico">🖥</div><h3>Online — Live Sessions</h3><p>Study from anywhere with live online sessions and recorded materials available 24/7 on-demand.</p></div>
+      <div class="why fi"><div class="ico">🏫</div><h3>In-Person Training</h3><p>Hands-on classroom experience at our Cairo facility with expert instructors and peer interaction.</p></div>
+      <div class="why fi"><div class="ico">🏢</div><h3>Corporate Training</h3><p>Fully customized in-house programs tailored specifically to your organization's goals and culture.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><a href="index.html" class="footer-logo">IMP<span>.</span></a><p class="footer-desc">Institute of Management Professionals — empowering career growth through AI-integrated training across the MENA region since 2014.</p></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="courses.html">Courses</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Courses</h4><ul><li><a href="courses.html">Data Analysis Diploma</a></li><li><a href="courses.html">AI Foundation Diploma</a></li><li><a href="courses.html">PMP Certification</a></li><li><a href="courses.html">HR Management</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:info@imanagementpro.com">info@imanagementpro.com</a></li><li><a href="contact.html">Send a Message</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 IMP – Institute of Management Professionals</span><span>Built with AI-assisted development tools</span></div>
+  </div>
+</footer>
+<script src="js/script.js"></script>
+</body>
+</html>
